@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext -f "SERVER=.;DATABASE=BD_MiniSuper;INTEGRATED SECURITY=TRUE;user Id=;Password=" Microsoft.EntityframeworkCore.SqlServer -OutputDir Models

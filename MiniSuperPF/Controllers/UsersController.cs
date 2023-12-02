@@ -61,7 +61,8 @@ namespace MiniSuperPF.Controllers
 
             string EncriptedPassword = MyCrypto.EncriptarEnUnSentido(pPassword);
 
-            var User = await _context.Users.SingleOrDefaultAsync(e => e.Email == pUserName && e.LoginPassword == EncriptedPassword);
+            var User = await _context.Users.SingleOrDefaultAsync(e => e.Email == pUserName &&
+                                                   e.LoginPassword == EncriptedPassword);
 
 
             if (User == null)
@@ -86,6 +87,7 @@ namespace MiniSuperPF.Controllers
                          join us in _context.UserStatuses on u.UserStatusId equals us.UserStatusId
                          where u.Email == email && u.UserStatusId != 2
                          select new
+
                          {
                              idusuario = u.UserId,
                              nombre = u.Name,

@@ -17,5 +17,7 @@ namespace MiniSuperPF.ModelsDTOs
 
         public string EstadoDescripcion { get; set; } = null!;
         public string RolDescripcion { get; set; } = null!;
+
+
     }
 }

@@ -22,6 +22,6 @@ namespace MiniSuperPF.Models
 
         public virtual UserRole? UserRole { get; set; } = null!;
         public virtual UserStatus? UserStatus { get; set; } = null!;
-        public virtual ICollection<Service> Services { get; set; }
+        public virtual ICollection<Service>? Services { get; set; }
     }
 }

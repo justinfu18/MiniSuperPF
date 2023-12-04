@@ -133,14 +133,42 @@ namespace MiniSuperPF.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(int id, UserDTO user)
         {
-            if (id != user.UserId)
+            if (id != user.IdUsuario)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            string Password = "";
+            if (user.Contrasennia.Length <= 60)
+            {
+                Password = MyCrypto.EncriptarEnUnSentido(user.Contrasennia);
+            }
+            else
+            {
+                Password = user .Contrasennia;
+            }
+
+
+            User NuevoUsuario = new()
+            {
+                UserId = user.IdUsuario,
+                Name = user.Nombre,
+                CardId = user.Cedula,
+                Address = user.Direccion,
+                PhoneNumber = user.NumeroTelefono,
+                LoginPassword = user.Contrasennia,
+                Email = user.Correo,
+                UserRoleId = user.IdRol,
+                UserStatusId = user.IdEstado,
+                Services = null,
+                UserRole = null,
+                UserStatus = null,
+            };
+
+
+            _context.Entry(NuevoUsuario).State = EntityState.Modified;
 
             try
             {
@@ -158,7 +186,7 @@ namespace MiniSuperPF.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/Users

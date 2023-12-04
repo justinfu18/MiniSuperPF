@@ -37,10 +37,6 @@ namespace MiniSuperPF.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Service>> GetService(int id)
         {
-          if (_context.Services == null)
-          {
-              return NotFound();
-          }
             var service = await _context.Services.FindAsync(id);
 
             if (service == null)
@@ -121,5 +117,28 @@ namespace MiniSuperPF.Controllers
         {
             return (_context.Services?.Any(e => e.ServiceId == id)).GetValueOrDefault();
         }
+
+
+        [HttpGet("GetServiceListByUser")]
+        public async Task<ActionResult<IEnumerable<Service>>> GetServiceListByUser(int pUserID)
+        {
+            var serviceList = await _context.Services.Where(u => u.UserId == pUserID).ToListAsync();
+
+           // List<Service> 
+
+            if (serviceList == null)
+            {
+                return NotFound();
+            }
+
+            return serviceList;
+        }
+
+
+
+
+
+
     }
+
 }

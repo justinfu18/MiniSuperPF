@@ -8,6 +8,7 @@ namespace MiniSuperPF.Tools
         string LLavePersonalizada = "APPIhsjdjkahds2738TEMP";
         public string DesEncriptarPassword(string pass)
         {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(pass);
             String R = string.Empty;
             using (TripleDESCryptoServiceProvider tripleDESCryptoService = new TripleDESCryptoServiceProvider())
             {
@@ -19,7 +20,9 @@ namespace MiniSuperPF.Tools
                     tripleDESCryptoService.Key = byteHash;
                     tripleDESCryptoService.Mode = CipherMode.ECB;
 
-                    Byte[] data = Convert.FromBase64String(pass);
+                    String s = Convert.ToBase64String(plainTextBytes);
+
+                    Byte[] data = Convert.FromBase64String(s);
                     R = Encoding.UTF8.GetString(tripleDESCryptoService.CreateDecryptor().TransformFinalBlock(data, 0, data.Length));
 
                 }
@@ -28,6 +31,7 @@ namespace MiniSuperPF.Tools
         }
         public string EncriptarPassword(String pass)
         {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(pass);
             String R = string.Empty;
 
             using (TripleDESCryptoServiceProvider tripleDESCryptoService = new TripleDESCryptoServiceProvider())
@@ -39,7 +43,10 @@ namespace MiniSuperPF.Tools
                     tripleDESCryptoService.Key = byteHash;
                     tripleDESCryptoService.Mode = CipherMode.ECB;
 
-                    Byte[] data = Convert.FromBase64String(pass);
+
+                    String s = Convert.ToBase64String(plainTextBytes);
+                    //      byte[] val1 = { 5, 10, 15, 20, 25, 30 };
+                    Byte[] data = Convert.FromBase64String(s);
 
                     R = Convert.ToBase64String(tripleDESCryptoService.CreateEncryptor().TransformFinalBlock(data, 0, data.Length));
                 }
@@ -50,7 +57,7 @@ namespace MiniSuperPF.Tools
         public string EncriptarEnUnSentido(string Entrada)
         {
             string PorEncriptar = EncriptarPassword(Entrada);
-            PorEncriptar += "PalabraClave";
+           // PorEncriptar += "PalabraClave";
 
             SHA256CryptoServiceProvider ProveedorCrypto = new SHA256CryptoServiceProvider();
 
@@ -62,7 +69,7 @@ namespace MiniSuperPF.Tools
                 Resultado.Append(BytesConHash[i].ToString("x2").ToLower());
 
 
-            return Resultado.ToString();
+            return PorEncriptar;
             
             
            

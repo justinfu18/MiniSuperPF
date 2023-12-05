@@ -20,13 +20,13 @@ namespace MiniSuperPF.Controllers
         private readonly BD_MiniSuperContext _context;
 
 
-        public Tools.Crypto MyCrypto { get; set; }
+        public Tools.AESEncrytDecry MyCrypto { get; set; }
 
         public UsersController(BD_MiniSuperContext context)
         {
             _context = context;
 
-            MyCrypto = new Tools.Crypto();
+            MyCrypto = new Tools.AESEncrytDecry();
         }
 
         // GET: api/Users
@@ -59,11 +59,12 @@ namespace MiniSuperPF.Controllers
         public async Task<ActionResult<User>> ValidateUserLogin(String pUserName, string pPassword)
         {
 
-            string EncriptedPassword = MyCrypto.EncriptarEnUnSentido(pPassword);
+            string EncriptedPassword = AESEncrytDecry.EcryptStringAES(pPassword);
 
-            var User = await _context.Users.SingleOrDefaultAsync(e => e.Email == pUserName &&
-                                                   e.LoginPassword == EncriptedPassword);
+            string EncriptedPassworda = AESEncrytDecry.DecryptStringAES(EncriptedPassword);
 
+            var User = await _context.Users.SingleOrDefaultAsync(e => e.Email == pUserName );
+            string Userpass = AESEncrytDecry.DecryptStringAES(User.LoginPassword.ToString().Trim());
 
             if (User == null)
             {
@@ -143,7 +144,7 @@ namespace MiniSuperPF.Controllers
             string Password = "";
             if (user.Contrasennia.Length <= 60)
             {
-                Password = MyCrypto.EncriptarEnUnSentido(user.Contrasennia);
+                Password = AESEncrytDecry.EcryptStringAES(user.Contrasennia);
             }
             else
             {
@@ -194,7 +195,7 @@ namespace MiniSuperPF.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-            string EncriptedPassword = MyCrypto.EncriptarEnUnSentido(user.LoginPassword);
+            string EncriptedPassword = AESEncrytDecry.EcryptStringAES(user.LoginPassword);
             user.LoginPassword = EncriptedPassword;
 
             _context.Users.Add(user);

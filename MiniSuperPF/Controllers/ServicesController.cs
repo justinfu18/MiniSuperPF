@@ -12,7 +12,7 @@ namespace MiniSuperPF.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [ApiKey]
+    //[ApiKey]
     public class ServicesController : ControllerBase
     {
         private readonly BD_MiniSuperContext _context;

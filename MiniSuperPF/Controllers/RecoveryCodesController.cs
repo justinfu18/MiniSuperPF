@@ -52,7 +52,7 @@ namespace MiniSuperPF.Controllers
 
         // GET: api/RecoveryCodes/ValideteCode
         [HttpGet("ValideteCode")]
-        public async Task<ActionResult<RecoveryCode>> ValideteCode(string pEmail, string pRecoveryCode )
+        public async Task<ActionResult<RecoveryCode>> ValideteCode(string pEmail, string pRecoveryCode)
         {
             if (_context.RecoveryCodes == null)
             {
@@ -108,18 +108,20 @@ namespace MiniSuperPF.Controllers
         [HttpPost]
         public async Task<ActionResult<RecoveryCode>> PostRecoveryCode(RecoveryCode recoveryCode)
         {
-          if (_context.RecoveryCodes == null)
-          {
-              return Problem("Entity set 'BD_MiniSuperContext.RecoveryCodes'  is null.");
-          }
-            _context.RecoveryCodes.Add(recoveryCode);
-            await _context.SaveChangesAsync();
+            
 
+                if (_context.RecoveryCodes == null)
+                {
+                    return Problem("Entity set 'BD_MiniSuperContext.RecoveryCodes'  is null.");
+                }
+                _context.RecoveryCodes.Add(recoveryCode);
+                await _context.SaveChangesAsync();
+                                              
             return CreatedAtAction("GetRecoveryCode", new { id = recoveryCode.RecoveryCodeId }, recoveryCode);
         }
 
-        // DELETE: api/RecoveryCodes/5
-        [HttpDelete("{id}")]
+    // DELETE: api/RecoveryCodes/5
+    [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRecoveryCode(int id)
         {
             if (_context.RecoveryCodes == null)

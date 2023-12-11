@@ -64,7 +64,7 @@ namespace MiniSuperPF.Controllers
             string EncriptedPassworda = AESEncrytDecry.DecryptStringAES(EncriptedPassword);
 
             var User = await _context.Users.SingleOrDefaultAsync(e => e.Email == pUserName );
-            string Userpass = AESEncrytDecry.DecryptStringAES(User.LoginPassword.ToString().Trim());
+            //string Userpass = AESEncrytDecry.DecryptStringAES(User.LoginPassword.ToString().Trim());
 
             if (User == null)
             {
